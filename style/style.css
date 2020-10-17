@@ -1,0 +1,9 @@
+table {
+  background-color: green;
+}
+
+td {
+  background-color: lightblue;
+  height: 100px;
+  width: 100px;
+}
