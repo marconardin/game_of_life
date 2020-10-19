@@ -1,9 +1,17 @@
 table {
-  background-color: green;
+  background-color: #777;
 }
 
 td {
   background-color: lightblue;
-  height: 100px;
-  width: 100px;
+  height: 50px;
+  width: 50px;
+}
+
+/* td.empty {
+  background-color: lightblue;
+} */
+
+td.filled {
+  background-color: blue;
 }
