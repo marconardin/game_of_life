@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (random) randomizeCells();
   clickCellOnOff();
   createButtons();
+
+  // setInterval(runGame, 1000);
 });
 
 function createBoard() {
@@ -51,8 +53,8 @@ function clickCellOnOff() {
 }
 
 function createButtons() {
-  const btns = ['START', 'STOP', 'RESET'];
-  const btnBox = document.createElement('div');
+  const btns = ["START", "STOP", "RESET"];
+  const btnBox = document.createElement("div");
   document.body.appendChild(btnBox);
   btnBox.style.margin = "auto";
   btnBox.style.padding = "1rem";
@@ -64,5 +66,17 @@ function createButtons() {
     startBtn.style.width = "100px";
     startBtn.innerText = btnText;
     btnBox.appendChild(startBtn);
+  }
+}
+
+function runGame() {
+  const cells = document.querySelectorAll('td');
+  for (let cell of cells) {
+    // if alive
+    //  if 2-3 neighbors, stay alive
+    //  else, die
+    // else (dead)
+    //  if 3 neighbors, born
+    //  else, stay dead
   }
 }
