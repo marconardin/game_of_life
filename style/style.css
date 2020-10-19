@@ -8,10 +8,6 @@ td {
   width: 50px;
 }
 
-/* td.empty {
-  background-color: lightblue;
-} */
-
 td.filled {
   background-color: blue;
 }
