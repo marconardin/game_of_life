@@ -4,10 +4,10 @@ table {
 
 td {
   background-color: lightblue;
-  height: 50px;
-  width: 50px;
+  height: 10px;
+  width: 10px;
 }
 
-td.filled {
+td.alive {
   background-color: blue;
 }
