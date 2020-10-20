@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   clickCellOnOff();
   createButtons();
 
-  setInterval(runGame, 500);
+  setInterval(runGame, 100);
 });
 
 function createBoard() {
