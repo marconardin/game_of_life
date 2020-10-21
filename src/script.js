@@ -1,13 +1,42 @@
+let generation = 0;
+let genCounter = document.createElement("p");
+let random = true;
+
 document.addEventListener("DOMContentLoaded", () => {
-  let random = true;
+  // FIXME: prevent setting of multiple intervals with start button multiple clicks
+  // FIXME: reset will not stop the game if it hasn't been stopped
+
   // TODO: add preset configurations, not just random
+  // TODO: step by step button
+  // TODO: speed up and slow down steps?
+  // TODO: allow changing of the size of the gameboard
+  //      either dynamic (i.e. ajax) or static
+  // TODO: visual effects (e.g. fading trails)
+  // TODO: create buffer to handle movements out of bounds
 
   createBoard();
   if (random) randomizeCells();
   clickCellOnOff();
+
+  genCounter.innerText = `Generation: ${generation}`;
+  document.body.appendChild(genCounter);
+
   createButtons();
 
-  setInterval(runGame, 100);
+  const startBtn = document.querySelector("#start");
+  const stopBtn = document.querySelector("#stop");
+  const resetBtn = document.querySelector("#reset");
+
+  startBtn.addEventListener("click", () => {
+    let intervalId = setInterval(runGame, 100);
+    stopBtn.addEventListener("click", () => {
+      clearInterval(intervalId);
+    });
+  });
+
+  resetBtn.addEventListener("click", () => {
+    resetBoard();
+  });
 });
 
 function createBoard() {
@@ -15,7 +44,6 @@ function createBoard() {
   const tbl = document.createElement("table");
   tbl.style.margin = "20px auto 20px auto";
   document.body.appendChild(tbl);
-  document.body.appendChild(document.createElement("p"));
   for (let i = 0; i < N; i++) {
     const tr = document.createElement("tr");
     tbl.appendChild(tr);
@@ -26,10 +54,23 @@ function createBoard() {
   }
 }
 
+function resetBoard() {
+  generation = 0;
+  genCounter.innerText = `Generation: ${generation}`;
+  clearBoard();
+  if (random) randomizeCells();
+}
+
+function clearBoard() {
+  const cells = document.querySelectorAll("td");
+  cells.forEach((cell) => {
+    cell.classList.remove("alive");
+  });
+}
+
 function randomizeCells() {
   const cells = document.querySelectorAll("td");
   cells.forEach((cell) => {
-    // 25% chance to fill cell
     const alive = Math.random() < 0.25;
     if (alive) {
       cell.classList.add("alive");
@@ -63,11 +104,12 @@ function createButtons() {
   btnBox.style.display = "flex";
   btnBox.style.justifyContent = "center";
   for (let btnText of btns) {
-    const startBtn = document.createElement("button");
-    startBtn.style.height = "50px";
-    startBtn.style.width = "100px";
-    startBtn.innerText = btnText;
-    btnBox.appendChild(startBtn);
+    const btn = document.createElement("button");
+    btn.style.height = "50px";
+    btn.style.width = "100px";
+    btn.innerText = btnText;
+    btn.id = btnText.toLowerCase();
+    btnBox.appendChild(btn);
   }
 }
 
@@ -106,8 +148,10 @@ function runGame() {
   }
 
   // update the table values
-  for (let cell of cells) {
+  // for (let cell of cells) {
+  cells.forEach((cell) => {
     if (cell.nextAlive) cell.classList.add("alive");
     if (!cell.nextAlive) cell.classList.remove("alive");
-  }
+  });
+  genCounter.innerText = `Generation: ${++generation}`;
 }
