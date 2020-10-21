@@ -1,6 +1,7 @@
 let generation = 0;
 let genCounter = document.createElement("p");
 let random = true;
+let animationId;
 
 document.addEventListener("DOMContentLoaded", () => {
   // FIXME: prevent setting of multiple intervals with start button multiple clicks
@@ -27,12 +28,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const stopBtn = document.querySelector("#stop");
   const resetBtn = document.querySelector("#reset");
 
+  animationId = requestAnimationFrame(runGame);
+
   startBtn.addEventListener("click", () => {
-    let intervalId = setInterval(runGame, 100);
-    stopBtn.addEventListener("click", () => {
-      clearInterval(intervalId);
-    });
-  });
+    animationId = requestAnimationFrame(runGame);
+  })
+  stopBtn.addEventListener("click", () => {
+    cancelAnimationFrame(animationId);
+  })
 
   resetBtn.addEventListener("click", () => {
     resetBoard();
@@ -154,4 +157,5 @@ function runGame() {
     if (!cell.nextAlive) cell.classList.remove("alive");
   });
   genCounter.innerText = `Generation: ${++generation}`;
+  animationId = requestAnimationFrame(runGame);
 }
