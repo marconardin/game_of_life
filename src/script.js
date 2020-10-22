@@ -39,9 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     startBtn.removeAttribute("disabled")
   })
 
-  resetBtn.addEventListener("click", () => {
-    resetBoard();
-  });
+  resetBtn.addEventListener("click", resetBoard);
 });
 
 function createBoard() {
