@@ -4,7 +4,6 @@ let random = true;
 let animationId;
 
 document.addEventListener("DOMContentLoaded", () => {
-  // FIXME: prevent setting of multiple intervals with start button multiple clicks
   // FIXME: reset will not stop the game if it hasn't been stopped
 
   // TODO: adjust and slow down game speed
@@ -31,9 +30,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   startBtn.addEventListener("click", () => {
     animationId = requestAnimationFrame(runGame);
+    startBtn.setAttribute("disabled", true)
+    stopBtn.removeAttribute("disabled")
   })
   stopBtn.addEventListener("click", () => {
     cancelAnimationFrame(animationId);
+    stopBtn.setAttribute("disabled", true)
+    startBtn.removeAttribute("disabled")
   })
 
   resetBtn.addEventListener("click", () => {
