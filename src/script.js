@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // FIXME: prevent setting of multiple intervals with start button multiple clicks
   // FIXME: reset will not stop the game if it hasn't been stopped
 
+  // TODO: adjust and slow down game speed
   // TODO: add preset configurations, not just random
   // TODO: step by step button
   // TODO: speed up and slow down steps?
@@ -27,8 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const startBtn = document.querySelector("#start");
   const stopBtn = document.querySelector("#stop");
   const resetBtn = document.querySelector("#reset");
-
-  animationId = requestAnimationFrame(runGame);
 
   startBtn.addEventListener("click", () => {
     animationId = requestAnimationFrame(runGame);
