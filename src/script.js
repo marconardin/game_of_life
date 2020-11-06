@@ -2,19 +2,9 @@ let generation = 0;
 let genCounter = document.createElement("p");
 let random = true;
 let animationId;
+let frameCounter = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
-  // FIXME: reset will not stop the game if it hasn't been stopped
-
-  // TODO: adjust and slow down game speed
-  // TODO: add preset configurations, not just random
-  // TODO: step by step button
-  // TODO: speed up and slow down steps?
-  // TODO: allow changing of the size of the gameboard
-  //      either dynamic (i.e. ajax) or static
-  // TODO: visual effects (e.g. fading trails)
-  // TODO: create buffer to handle movements out of bounds
-
   createBoard();
   if (random) randomizeCells();
   clickCellOnOff();
@@ -29,15 +19,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetBtn = document.querySelector("#reset");
 
   startBtn.addEventListener("click", () => {
-    animationId = requestAnimationFrame(runGame);
-    startBtn.setAttribute("disabled", true)
-    stopBtn.removeAttribute("disabled")
-  })
+    requestAnimationFrame(runGame);
+    startBtn.setAttribute("disabled", true);
+    stopBtn.removeAttribute("disabled");
+  });
   stopBtn.addEventListener("click", () => {
     cancelAnimationFrame(animationId);
-    stopBtn.setAttribute("disabled", true)
-    startBtn.removeAttribute("disabled")
-  })
+    stopBtn.setAttribute("disabled", true);
+    startBtn.removeAttribute("disabled");
+  });
 
   resetBtn.addEventListener("click", resetBoard);
 });
@@ -58,9 +48,15 @@ function createBoard() {
 }
 
 function resetBoard() {
+  const startBtn = document.querySelector("#start");
+  const stopBtn = document.querySelector("#stop");
+
+  cancelAnimationFrame(animationId);
   generation = 0;
   genCounter.innerText = `Generation: ${generation}`;
   clearBoard();
+  stopBtn.setAttribute("disabled", true);
+  startBtn.removeAttribute("disabled");
   if (random) randomizeCells();
 }
 
@@ -129,33 +125,34 @@ function runGame() {
     for (let i = rowIndex - 1; i <= rowIndex + 1; i++) {
       for (let j = cellIndex - 1; j <= cellIndex + 1; j++) {
         if (rowIndex == i && cellIndex == j) continue;
-        if (
-          i >= 0 &&
-          i < table.rows.length &&
-          j >= 0 &&
-          j < table.rows[0].cells.length
-        ) {
-          if (table.rows[i].cells[j].classList.contains("alive"))
-            aliveNeighbors++;
+        if (i >= 0 && i < table.rows.length && j >= 0 && j < table.rows[0].cells.length) {
+          if (table.rows[i].cells[j].classList.contains("alive")) aliveNeighbors++;
         }
       }
     }
 
     // update the next state of the cell
     if (cell.classList.contains("alive")) {
-      cell.nextAlive =
-        aliveNeighbors == 2 || aliveNeighbors == 3 ? true : false;
+      cell.nextAlive = aliveNeighbors == 2 || aliveNeighbors == 3 ? true : false;
     } else {
       cell.nextAlive = aliveNeighbors == 3 ? true : false;
     }
   }
 
   // update the table values
-  // for (let cell of cells) {
   cells.forEach((cell) => {
     if (cell.nextAlive) cell.classList.add("alive");
     if (!cell.nextAlive) cell.classList.remove("alive");
   });
   genCounter.innerText = `Generation: ${++generation}`;
+  sleep(100)
   animationId = requestAnimationFrame(runGame);
+}
+
+function sleep(msecs) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < msecs);
 }
