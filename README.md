@@ -19,6 +19,6 @@ Depending on whether a cell is dead or alive and how many neighbors it has deter
         If it has 3 live neighbors, it becomes alive (reproduction)
 
 And a simplified version of the ruleset:
-* Alive and 2-3 neighbors => Alive
-* Dead and 3 neighbors => Alive
+* Alive and 2-3 neighbors --> Alive
+* Dead and 3 neighbors --> Alive
 * Otherwise Dead
